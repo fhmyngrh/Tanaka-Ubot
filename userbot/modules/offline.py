@@ -60,7 +60,7 @@ async def mention_afk(mention):
             afk_str = f"`{int(seconds)}s` Yang Lalu"
 
         is_bot = False
-        if (sender := await mention.get_sender()) :
+        if (sender := await mention.get_sender()):
             is_bot = sender.bot
             if is_bot:
                 return  # ignore bot
@@ -89,9 +89,10 @@ async def mention_afk(mention):
                 USERS[chat_title] += 1
         COUNT_MSG += 1
 
-#Hi , Mau Maling Ya??        
-#Xixixixi
-#P o c o n g - U s e r b o t
+# Hi , Mau Maling Ya??
+# Xixixixi
+# P o c o n g - U s e r b o t
+
 
 @register(incoming=True, disable_errors=True)
 async def afk_on_pm(sender):
@@ -190,11 +191,12 @@ async def set_afk(afk_e):
     ISAFK = True
     afk_time = datetime.now()
     raise StopPropagation
-    
+
 #Pocong - Userbot
-#Ciee Hapus Credit
-#Maling Aja Gapapa
-#Port by @Pocongonlen
+# Ciee Hapus Credit
+# Maling Aja Gapapa
+# Port by @Pocongonlen
+
 
 @register(outgoing=True, pattern="^.online(?: |$)(.*)", disable_errors=True)
 async def type_afk_is_not_true(notafk):

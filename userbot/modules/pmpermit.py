@@ -37,7 +37,7 @@ LASTMSG = {}
 # ========================= CONSTANTS ============================
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
-CUSTOM_MIDDLE_PMP = str( CUSTOM_PMPERMIT_TEXT) if CUSTOM_PMPERMIT_TEXT else f""
+CUSTOM_MIDDLE_PMP = str(CUSTOM_PMPERMIT_TEXT) if CUSTOM_PMPERMIT_TEXT else f""
 DEF_UNAPPROVED_MSG = (
     f"👋**Holla Stranger!!!**\n\n"
     "━━━━━━━━━━━━━━━━━━━━\n"
@@ -79,10 +79,8 @@ async def permitpm(event):
         getmsg = gvarstatus("unapproved_msg")
         if getmsg is not None:
             UNAPPROVED_MSG = getmsg
-            WARN_PIC = PM_PERMIT_PIC
         else:
             UNAPPROVED_MSG = DEF_UNAPPROVED_MSG
-            WARN_PIC = PM_PERMIT_PIC
         # This part basically is a sanity check
         # If the message that sent before is Unapproved Message
         # then stop sending it again to prevent FloodHit
@@ -97,10 +95,10 @@ async def permitpm(event):
                     ):
                         await message.delete()
                     await event.reply(f"{UNAPPROVED_MSG}")
-                                            
+
             else:
                 await event.reply(f"{UNAPPROVED_MSG}")
-                                        
+
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)

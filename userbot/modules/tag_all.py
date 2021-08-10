@@ -23,7 +23,7 @@ async def all(event):
     async for x in bot.iter_participants(chat, 100500):
         mentions += f"[\u2063](tg://user?id={x.id} {query})"
     await bot.send_message(chat, mentions, reply_to=event.message.reply_to_msg_id)
-    
+
 
 CMD_HELP.update({
     'mention':

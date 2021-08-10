@@ -1,7 +1,7 @@
 # Copyright (C) 2020 TeamUltroid
 #
 # Ported by X_ImFine
-# 
+#
 # Copyright (C) XBot - Remix
 #
 # Izin Copy Bang Dian Xixixi
@@ -110,12 +110,12 @@ async def on_afk(event):
         msg = None
         if reason:
             message_to_reply = (
-                  f"❏ **PENGGUNA SEDANG AFK** ❏\n"
+                f"❏ **PENGGUNA SEDANG AFK** ❏\n"
                 + f"┈──────────────────┈\n"
                 + f"┌ `User      :` {ALIVE_NAME}\n"
                 + f"├ `Sejak     :` {total_afk_time} Yang Lalu\n"
                 + f"└ `Karena    :` {reason}"
-                
+
             )
         else:
             message_to_reply = f"❏ **Maaf Saya Sedang AFK!**\n" + \
@@ -232,7 +232,7 @@ async def _(event):
         except Exception as e:
             BOTLOG_CHATIDger.warn(str(e))
 
-            
+
 # P o c o n g - U s e r b o t
 
 CMD_HELP.update({

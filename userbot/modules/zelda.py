@@ -1,11 +1,6 @@
 # ZELDA-BOT
-from time import sleep
-from userbot import ALIVE_NAME, CMD_HELP, bot
-from userbot.events import register
-from telethon import events
-import asyncio
+from userbot import ALIVE_NAME
 
 # ================= CONSTANT =================
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname()
 # ============================================
-

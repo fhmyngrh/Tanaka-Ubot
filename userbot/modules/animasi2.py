@@ -1,13 +1,12 @@
 # ZELDA-BOT
 from time import sleep
-from userbot import ALIVE_NAME, CMD_HELP, bot
+from userbot import ALIVE_NAME, CMD_HELP
 from userbot.events import register
-from telethon import events
-import asyncio
 
 # ================= CONSTANT =================
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname()
 # ============================================
+
 
 @register(outgoing=True, pattern='^.tolol(?: |$)(.*)')
 async def typewriter(typew):
@@ -32,7 +31,8 @@ async def typewriter(typew):
     await typew.edit("`TOLOL!!!!`")
     sleep(3)
     await typew.edit("`CANDA GAUSAH BAPER!!!`")
-    
+
+
 @register(outgoing=True, pattern='^.woy(?: |$)(.*)')
 async def typewriter(typew):
     typew.pattern_match.group(1)
@@ -51,7 +51,8 @@ async def typewriter(typew):
     await typew.edit("**Jempol lu kebas? Apa dah putus?**")
     sleep(2)
     await typew.edit("**NIMBRUNGGG WOY ANJIRR!!!!**")
-    
+
+
 @register(outgoing=True, pattern='^.fck(?: |$)(.*)')
 async def typewriter(typew):
     typew.pattern_match.group(1)
@@ -65,12 +66,14 @@ async def typewriter(typew):
     await typew.edit(".                       /¯ )\n                      /¯  /\n                    /    /\n              /´¯/'   '/´¯¯`•¸\n          /'/   /    /       /¨¯\\ \n        ('(   (   (   (  ¯~/'  ')\n         \\                        /\n          \\                _.•´")
     await typew.edit(".                       /¯ )\n                      /¯  /\n                    /    /\n              /´¯/'   '/´¯¯`•¸\n          /'/   /    /       /¨¯\\ \n        ('(   (   (   (  ¯~/'  ')\n         \\                        /\n          \\                _.•´\n            \\              (")
     await typew.edit(".                       /¯ )\n                      /¯  /\n                    /    /\n              /´¯/'   '/´¯¯`•¸\n          /'/   /    /       /¨¯\\ \n        ('(   (   (   (  ¯~/'  ')\n         \\                        /\n          \\                _.•´\n            \\              (\n              \\  ")
-    
+
+
 @register(outgoing=True, pattern="^.mf$")
 async def koc(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         await e.edit("`MAAF GADULU KAK` **😝😜🤪😛** ")
-       
+
+
 @register(outgoing=True, pattern='^.gombal(?: |$)(.*)')
 async def typewriter(typew):
     typew.pattern_match.group(1)
@@ -118,7 +121,8 @@ async def typewriter(typew):
     await typew.edit("`Assalamu'alaikum`")
     sleep(3)
     await typew.edit("**YANG GA JAWAB, FIX ATHEISS!!**")
-   
+
+
 @register(outgoing=True, pattern='^.miminfc(?: |$)(.*)')
 async def typewriter(typew):
     typew.pattern_match.group(1)
@@ -150,7 +154,7 @@ async def typewriter(typew):
     await typew.edit("**Dinda Mengintil✅**")
     sleep(3)
     await typew.edit("**CUMA ZELDA YANG BENER!**")
-    
+
 CMD_HELP.update({
     "animasi2":
     "**Command :** `.ass` ; `.gombal` ; `.fck` ; `.woy` ; `.tolol` ; `.miminfc` ;\
