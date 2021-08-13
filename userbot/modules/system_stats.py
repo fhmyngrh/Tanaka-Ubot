@@ -223,23 +223,20 @@ async def pipcheck(pip):
         await pip.edit("Gunakan `.help pip` Untuk Melihat Contoh")
 
 
-@register(outgoing=True, pattern=r"^\.(?:zeldalive)\s?(.)?")
+@register(outgoing=True, pattern=r"^\.(?:zelda)\s?(.)?")
 async def amireallyalive(alive):
     user = await bot.get_me()
     await get_readable_time((time.time() - StartTime))
     output = (
-        f"\n__**♛ ZELDA USERBOT ♛**__\n"
-        f"**╭───────────────────**\n"
-        f"**├[• 🤴 Zelda Owner** \n"
-        f"├[•   : `{DEFAULTUSER}` \n"
-        f"**├[• 🔎 Username** \n"
-        f"├[•   : `@{user.username}` \n"
-        f"├──────────────────\n"
-        f"├[•⚙️ `Telethon :`Ver {version.__version__} \n"
-        f"├[•🐍 `Python   :`Ver {python_version()} \n"
-        f"├[•👾 `Bot Ver  :`{BOT_VER} \n"
-        f"├[•📂 `Modules  :`{len(modules)} \n"
-        f"╰─────────────────")
+        f"**ZELDA USERBOT**\n\n"
+        f"◉ `Lord     :` {DEFAULTUSER} \n"
+        f"◉ `Username :` @{user.username} \n"
+        f"◉ `Telethon :` Ver {version.__version__} \n"
+        f"◉ `Python   :` Ver {python_version()} \n"
+        f"◉ `Branch   :` ZELDA USERBOT \n"
+        f"◉ `Bot Ver  :` {BOT_VER} \n"
+        f"◉ `Modules  :` {len(modules)} Modules \n"
+        f"◉ `Owner    :` [LORD ZELDA](t.me/GapernahDesah)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -260,7 +257,7 @@ async def amireallyalive(alive):
         await alive.delete()
 
 
-@register(outgoing=True, pattern=r"^\.(?:zelda)\s?(.)?")
+@register(outgoing=True, pattern=r"^\.(?:zeldabot)\s?(.)?")
 async def amireallyalive(alive):
     await bot.get_me()
     await get_readable_time((time.time() - StartTime))
