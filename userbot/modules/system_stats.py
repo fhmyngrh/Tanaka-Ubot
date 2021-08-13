@@ -230,7 +230,7 @@ async def amireallyalive(alive):
     output = (
         f"\n__**♛ ZELDA USERBOT ♛**__\n"
         f"**╭───────────────────**\n"
-        f"**├[• 🤴 Geez Owner** \n"
+        f"**├[• 🤴 Zelda Owner** \n"
         f"├[•   : `{DEFAULTUSER}` \n"
         f"**├[• 🔎 Username** \n"
         f"├[•   : `@{user.username}` \n"
@@ -265,17 +265,15 @@ async def amireallyalive(alive):
     await bot.get_me()
     await get_readable_time((time.time() - StartTime))
     output = (
-        f"**ㅤㅤㅤㅤ ♛ ZELDA USERBOT ♛**\n"
-        f"╔══════════╬════╬══════════╗ \n"
-        f"╟⟩⟩ 🤴 • `ᴏᴡɴᴇʀ    :`[{DEFAULTUSER}](t.me/GasukaDesah)\n"
-        f"╟⟩⟩ 🖥️ • `ꜱʏꜱᴛᴇᴍ.   :`Ubuntu 20.10\n"
-        f"╟⟩⟩ ⚙️ • `ᴛᴇʟᴇᴛʜᴏɴ  :`v.{version.__version__}\n"
-        f"╟⟩⟩ 🐍 • `ᴘʏᴛʜᴏɴ.   :`v.{python_version()}\n"
-        f"╟⟩⟩ 👾 • `ʙᴏᴛ      :`v.{BOT_VER}\n"
-        f"╟⟩⟩ 📂 • `ᴍᴏᴅᴜʟᴇ   :`{len(modules)}\n"
-        f"╚══════════╬════╬══════════╝ \n"
-        f"🔰 : [Repo](https://github.com/fhmyngrh/Geez-UserBot) | [Grup](t.me/Friendlycircle) | [Owner](t.me/GasukaDesah) | [Instagram](https://Instagram.com/fhmyngrh_)\n"
-    )
+        f"**ZELDA USERBOT**\n\n"
+        f"◉ `Lord     :` {DEFAULTUSER} \n"
+        f"◉ `Username :` @{user.username} \n"
+        f"◉ `Telethon :` Ver {version.__version__} \n"
+        f"◉ `Python   :` Ver {python_version()} \n"
+        f"◉ `Branch   :` ZELDA USERBOT \n"
+        f"◉ `Bot Ver  :` {BOT_VER} \n"
+        f"◉ `Modules  :` {len(modules)} Modules \n"
+        f"◉ `Owner    :` [LORD ZELDA](t.me/GapernahDesah)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -310,21 +308,15 @@ async def redis(alive):
     await alive.edit("⚡")
     await asyncio.sleep(2)
     output = (
-        f"╭╾──────────────────╼\n"
-        f"┃**       ♛ ZELDA USERBOT ♛**\n"
-        f"╰╾──────────────────╼\n"
-        f"╭╾──────────────────╼\n"
-        f"├|• `Lord     :`{DEFAULTUSER} \n"
-        f"├|• `Username :`@{user.username} \n"
-        f"├|• `Telethon :`Ver {version.__version__} \n"
-        f"├|• `Python   :`Ver {python_version()} \n"
-        f"├|• `Branch   :`ZELDA USERBOT \n"
-        f"├|• `Bot Ver  :`{BOT_VER} \n"
-        f"├|• `Modules  :`{len(modules)} Modules \n"
-        f"╰╾──────────────────╼\n"
-        f"╭╾──────────────────╼\n"
-        f"┃[Repo](https://github.com/fhmyngrh/Geez-UserBot) | [Grup](t.me/Friendlycircle) | [Owner](t.me/GasukaDesah) | [Instagram](https://Instagram.com/fhmyngrh_)\n"
-        f"╰╾──────────────────╼")
+        f"**ZELDA USERBOT IS ALIVE!**\n\n"
+        f"◉ `Lord     :` {DEFAULTUSER} \n"
+        f"◉ `Username :` @{user.username} \n"
+        f"◉ `Telethon :` Ver {version.__version__} \n"
+        f"◉ `Python   :` Ver {python_version()} \n"
+        f"◉ `Branch   :` ZELDA USERBOT \n"
+        f"◉ `Bot Ver  :` {BOT_VER} \n"
+        f"◉ `Modules  :` {len(modules)} Modules \n\n"
+        f"[Repo](https://github.com/fhmyngrh/Geez-UserBot) | [Grup](t.me/Friendlycircle) | [Owner](t.me/GapernahDesah) | [Instagram](https://Instagram.com/fhmyngrh_)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -376,7 +368,7 @@ CMD_HELP.update({
 })
 CMD_HELP.update({
     "alive":
-    "𝘾𝙤𝙢𝙢𝙖𝙣𝙙: `.alive` or `.on` or `.geezalive`"
+    "𝘾𝙤𝙢𝙢𝙖𝙣𝙙: `.alive` or `.on` or `.zeldaalive`"
     "\n↳ : To see whether your bot is working or not."
     "\n\n𝘾𝙤𝙢𝙢𝙖𝙣𝙙: `.aliveu` <text>"
     "\n↳ : Changes the 'user' in alive to the text you want."
