@@ -2,7 +2,7 @@ from userbot.events import register
 from time import sleep
 
 
-@register(outgoing=True, pattern='^.naka(?: |$)(.*)')
+@register(outgoing=True, pattern='^.tanaka(?: |$)(.*)')
 async def typewriter(typew):
     typew.pattern_match.group(1)
     sleep(3)
