@@ -33,11 +33,11 @@ async def help(event):
         for i in CMD_HELP:
             string += "`" + str(i)
             string += "`\t|  "
-        await event.edit("**♛ ZELDA USERBOT ♛**\n\n"
+        await event.edit("** ZELDA USERBOT **\n\n"
                          f"**Lord Of Bot :  {DEFAULTUSER}**\n**Total Modules : {len(modules)}**\n"
                          "**Help Menu :**\n"
                          f"{string}\n"
-                         "\nPowered By @oppaidaisukii\n\n")
+                         "\nPowered By @GapernahDesah\n\n")
         await event.reply(f"\n**Contoh** : Ketik <`.help ping`> Untuk Informasi Pengunaan.\nJangan Lupa Berdoa Sebelum Mencoba wahahaha..")
         await asyncio.sleep(50)
         await event.delete()
