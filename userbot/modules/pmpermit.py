@@ -39,17 +39,13 @@ LASTMSG = {}
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 CUSTOM_MIDDLE_PMP = str(CUSTOM_PMPERMIT_TEXT) if CUSTOM_PMPERMIT_TEXT else f""
 DEF_UNAPPROVED_MSG = (
-    f"👋**Holla Stranger!!!**\n\n"
-    "━━━━━━━━━━━━━━━━━━━━\n"
-    f"Selamat Datang. Saya adalah Bot Assistant Lord {DEFAULTUSER}, harap tunggu sampai Lord {DEFAULTUSER} menyetujui pesan anda.\n\n"
-    "━━━━━━━━━━━━━━━━━━━━\n"
-    f"⛔**PERINGATAN**\n"
-    "`- Dilarang spam lebih dari 5 kali sebelum pesan adna di setujui oleh Lord.`\n"
-    "`- Bot Assistant akan otomatis memblokir anda jika tetap melakukan spam.`\n\n"
-    "┏━━━━━━━━━━━━━━━━━━━\n"
-    "┣[• `Zelda Bot Assistant`\n"
-    "┣[• `Dev By` @oppaidaisukii\n"
-    "┗━━━━━━━━━━━━━━━━━━━")
+    "⛑ 𝗔𝗧𝗧𝗘𝗡𝗧𝗜𝗢𝗡 𝗣𝗟𝗘𝗔𝗦𝗘 ⛑\n"
+    "Halo kamu, ini adalah pesan otomatis oleh Userbot. \n\n"
+    "• Tunggu hingga pesan kamu di setujui\n"
+    "• Dilarang Spam Chat\n"
+    "• 5x Spam Chat, Bot akan otomatis memblokir\n"
+    "• Subs @SexualSins58 & @JatahMantan58\n\n"
+    "🚀  ZELDA USERBOT")
 
 # =================================================================
 
