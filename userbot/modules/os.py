@@ -38,7 +38,7 @@ async def start_voice(c):
     except Exception as ex:
         await c.edit(f"**ERROR:** `{ex}`")
         
-@register(outgoing=True, pattern="^.startos(?: |$)(.*)", groups_only=True)
+@register(outgoing=True, pattern="^.ostitle(?: |$)(.*)", groups_only=True)
 async def change_title(e):
     title = e.pattern_match.group(1)
     chat = await e.get_chat()
