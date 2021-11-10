@@ -103,3 +103,4 @@ scikit-image
 pendulum
 opencv-python
 youtube-search-python
+markdown
