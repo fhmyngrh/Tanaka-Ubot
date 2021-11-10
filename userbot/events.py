@@ -3,18 +3,21 @@
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
 # you may not use this file except in compliance with the License.
 #
-""" Userbot module for managing events.
- One of the main components of the userbot. """
+"""Userbot module for managing events. One of the main components of the userbot."""
 
+import inspect
+import re
 import sys
 from asyncio import create_subprocess_shell as asyncsubshell
 from asyncio import subprocess as asyncsub
+from pathlib import Path
 from time import gmtime, strftime
 from traceback import format_exc
 
 from telethon import events
 
 from userbot import CMD_HANDLER, CMD_LIST, bot
+
 
 def zelda_cmd(pattern=None, command=None, **args):
     args["func"] = lambda e: e.via_bot_id is None
