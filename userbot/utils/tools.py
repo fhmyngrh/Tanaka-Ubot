@@ -76,26 +76,6 @@ def human_to_bytes(size: str) -> int:
         size = re.sub(r'([KMGT])', r' \1', size)
     number, unit = [string.strip() for string in size.split()]
     return int(float(number) * units[unit])
-    
-    
-def media_type(message):
-    if message and message.photo:
-        return "Photo"
-    if message and message.audio:
-        return "Audio"
-    if message and message.voice:
-        return "Voice"
-    if message and message.video_note:
-        return "Round Video"
-    if message and message.gif:
-        return "Gif"
-    if message and message.sticker:
-        return "Sticker"
-    if message and message.video:
-        return "Video"
-    if message and message.document:
-        return "Document"
-    return None
 
 
 async def is_admin(chat_id, user_id):
@@ -195,3 +175,23 @@ def post_to_telegraph(title, html_format_content):
         text=html_format_content,
     )
     return post_page["url"]
+    
+async def edit_delete(event, text, time=None, parse_mode=None, link_preview=None):
+    parse_mode = parse_mode or "md"
+    link_preview = link_preview or False
+    time = time or 5
+    if event.sender_id in SUDO_USERS:
+        reply_to = await event.get_reply_message()
+        newevent = (
+            await reply_to.reply(text, link_preview=link_preview, parse_mode=parse_mode)
+            if reply_to
+            else await event.reply(
+                text, link_preview=link_preview, parse_mode=parse_mode
+            )
+        )
+    else:
+        newevent = await event.edit(
+            text, link_preview=link_preview, parse_mode=parse_mode
+        )
+    await asyncio.sleep(time)
+    return await newevent.delete()
