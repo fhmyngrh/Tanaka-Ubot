@@ -27,7 +27,6 @@ load_dotenv("config.env")
 StartTime = time.time()
 
 CMD_LIST = {}
-# for later purposes
 CMD_HELP = {}
 INT_PLUG = ""
 LOAD_PLUG = {}
@@ -85,6 +84,9 @@ PM_PERMIT_PIC = os.environ.get(
 
 # Bleep Blop, this is a bot ;)
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "True"))
+
+# Custom Handler command
+CMD_HANDLER = os.environ.get("CMD_HANDLER", ".")
 
 # Send .chatid in any group with all your administration bots (added)
 G_BAN_LOGGER_GROUP = os.environ.get("G_BAN_LOGGER_GROUP", "")
