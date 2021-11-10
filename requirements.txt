@@ -34,6 +34,7 @@ heroku3>=3.4.0
 httplib2>=0.18.0
 humanize 
 lxml
+markdown
 oauth2client
 Pillow>=6.0.0
 fontTools
@@ -103,4 +104,3 @@ scikit-image
 pendulum
 opencv-python
 youtube-search-python
-markdown
