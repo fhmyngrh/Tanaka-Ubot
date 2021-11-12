@@ -20,6 +20,7 @@ from .progress import progress
 from .tools import (
     humanbytes,
     edit_delete,
+    edit_or_reply,
     time_formatter,
     human_to_bytes,
     md5,
