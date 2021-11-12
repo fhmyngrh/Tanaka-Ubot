@@ -13,37 +13,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Recode by @mrismanaziz
-# FROM ZELDA USERBOT <https://github.com/mrismanaziz/ZELDA USERBOT>
-# t.me/SharingUserbot & t.me/Lunatic0de
-#
 
 
-import asyncio
-import hashlib
-import os
-import os.path
 import re
+import hashlib
+import asyncio
 import shlex
-import time
+import os
 from os.path import basename
-from typing import Optional, Union
-
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
+import os.path
 from html_telegraph_poster import TelegraphPoster
-from PIL import Image
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import (
-    ChannelParticipantAdmin,
-    ChannelParticipantCreator,
-    DocumentAttributeFilename,
-)
-from yt_dlp import YoutubeDL
-
+from typing import Optional, List
 from userbot import LOGS, SUDO_USERS, bot
-from userbot.utils.format import md_to_text, paste_message
+
+from telethon.tl.functions.channels import GetParticipantRequest
+from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, DocumentAttributeFilename
 
 
 async def md5(fname: str) -> str:
@@ -54,6 +38,31 @@ async def md5(fname: str) -> str:
     return hash_md5.hexdigest()
 
 
+def humanbytes(size: int) -> str:
+    if size is None or isinstance(size, str):
+        return ""
+
+    power = 2**10
+    raised_to_pow = 0
+    dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
+    while size > power:
+        size /= power
+        raised_to_pow += 1
+    return str(round(size, 2)) + " " + dict_power_n[raised_to_pow] + "B"
+
+
+def time_formatter(seconds: int) -> str:
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = (
+        ((str(days) + " day(s), ") if days else "") +
+        ((str(hours) + " hour(s), ") if hours else "") +
+        ((str(minutes) + " minute(s), ") if minutes else "") +
+        ((str(seconds) + " second(s), ") if seconds else "")
+    )
+    return tmp[:-2]
+    
 def media_type(message):
     if message and message.photo:
         return "Photo"
@@ -74,126 +83,62 @@ def media_type(message):
     return None
 
 
-def humanbytes(size: Union[int, float]) -> str:
-    if size is None or isinstance(size, str):
-        return ""
-
-    power = 2 ** 10
-    raised_to_pow = 0
-    dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
-    while size > power:
-        size /= power
-        raised_to_pow += 1
-    return str(round(size, 2)) + " " + dict_power_n[raised_to_pow] + "B"
-
-
-def time_formatter(seconds: int) -> str:
-    minutes, seconds = divmod(seconds, 60)
-    hours, minutes = divmod(minutes, 60)
-    days, hours = divmod(hours, 24)
-    tmp = (
-        ((str(days) + " hari, ") if days else "")
-        + ((str(hours) + " jam, ") if hours else "")
-        + ((str(minutes) + " menit, ") if minutes else "")
-        + ((str(seconds) + " detik, ") if seconds else "")
-    )
-    return tmp[:-2]
-
-
-async def extract_time(man, time_val):
-    if any(time_val.endswith(unit) for unit in ("s", "m", "h", "d", "w")):
-        unit = time_val[-1]
-        time_num = time_val[:-1]
-        if not time_num.isdigit():
-            await man.edit("Jumlah waktu yang ditentukan tidak valid.")
-            return None
-        if unit == "s":
-            bantime = int(time.time() + int(time_num) * 1)
-        elif unit == "m":
-            bantime = int(time.time() + int(time_num) * 60)
-        elif unit == "h":
-            bantime = int(time.time() + int(time_num) * 60 * 60)
-        elif unit == "d":
-            bantime = int(time.time() + int(time_num) * 24 * 60 * 60)
-        elif unit == "w":
-            bantime = int(time.time() + int(time_num) * 7 * 24 * 60 * 60)
-        else:
-            await man.edit(
-                f"**Jenis waktu yang dimasukan tidak valid. Harap masukan** s, m , h , d atau w tapi punya: `{time_val[-1]}`"
-            )
-            return None
-        return bantime
-    await man.edit(
-        f"**Jenis waktu yang dimasukan tidak valid. Harap Masukan** s, m , h , d atau w tapi punya: `{time_val[-1]}`"
-    )
-    return None
-
-
 def human_to_bytes(size: str) -> int:
     units = {
-        "M": 2 ** 20,
-        "MB": 2 ** 20,
-        "G": 2 ** 30,
-        "GB": 2 ** 30,
-        "T": 2 ** 40,
-        "TB": 2 ** 40,
+        "M": 2**20, "MB": 2**20,
+        "G": 2**30, "GB": 2**30,
+        "T": 2**40, "TB": 2**40
     }
 
     size = size.upper()
-    if not re.match(r" ", size):
-        size = re.sub(r"([KMGT])", r" \1", size)
+    if not re.match(r' ', size):
+        size = re.sub(r'([KMGT])', r' \1', size)
     number, unit = [string.strip() for string in size.split()]
     return int(float(number) * units[unit])
 
 
 async def is_admin(chat_id, user_id):
-    req_jo = await bot(GetParticipantRequest(channel=chat_id, user_id=user_id))
+    req_jo = await bot(GetParticipantRequest(
+        channel=chat_id,
+        user_id=user_id
+    ))
     chat_participant = req_jo.participant
-    return isinstance(
-        chat_participant, (ChannelParticipantCreator, ChannelParticipantAdmin)
-    )
+    if isinstance(
+            chat_participant,
+            ChannelParticipantCreator) or isinstance(
+            chat_participant,
+            ChannelParticipantAdmin):
+        return True
+    return False
 
 
 async def runcmd(cmd: str) -> tuple[str, str, int, int]:
-    """run command in terminal"""
+    """ run command in terminal """
     args = shlex.split(cmd)
-    process = await asyncio.create_subprocess_exec(
-        *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
+    process = await asyncio.create_subprocess_exec(*args,
+                                                   stdout=asyncio.subprocess.PIPE,
+                                                   stderr=asyncio.subprocess.PIPE)
     stdout, stderr = await process.communicate()
-    return (
-        stdout.decode("utf-8", "replace").strip(),
-        stderr.decode("utf-8", "replace").strip(),
-        process.returncode,
-        process.pid,
-    )
+    return (stdout.decode('utf-8', 'replace').strip(),
+            stderr.decode('utf-8', 'replace').strip(),
+            process.returncode,
+            process.pid)
 
 
-async def take_screen_shot(
-    video_file: str, duration: int, path: str = ""
-) -> Optional[str]:
-    """take a screenshot"""
+async def take_screen_shot(video_file: str, duration: int, path: str = '') -> Optional[str]:
+    """ take a screenshot """
     LOGS.info(
-        "[[[Extracting a frame from %s ||| Video duration => %s]]]",
+        '[[[Extracting a frame from %s ||| Video duration => %s]]]',
         video_file,
-        duration,
-    )
+        duration)
     ttl = duration // 2
-    thumb_image_path = path or os.path.join("./temp/", f"{basename(video_file)}.jpg")
+    thumb_image_path = path or os.path.join(
+        "./temp/", f"{basename(video_file)}.jpg")
     command = f"ffmpeg -ss {ttl} -i '{video_file}' -vframes 1 '{thumb_image_path}'"
     err = (await runcmd(command))[1]
     if err:
         LOGS.error(err)
     return thumb_image_path if os.path.exists(thumb_image_path) else None
-
-
-async def reply_id(event):
-    reply_to_id = None
-    if event.sender_id in SUDO_USERS:
-        reply_to_id = event.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-    return reply_to_id
 
 
 async def edit_or_reply(
@@ -252,33 +197,35 @@ async def edit_or_reply(
 
 
 async def check_media(reply_message):
-    if not reply_message or not reply_message.media:
-        return False
-
-    if reply_message.photo:
-        data = reply_message.photo
-    elif reply_message.document:
-        if (
-            DocumentAttributeFilename(file_name="AnimatedSticker.tgs")
-            in reply_message.media.document.attributes
-        ):
+    if reply_message and reply_message.media:
+        if reply_message.photo:
+            data = reply_message.photo
+        elif reply_message.document:
+            if (
+                DocumentAttributeFilename(file_name="AnimatedSticker.tgs")
+                in reply_message.media.document.attributes
+            ):
+                return False
+            if (
+                reply_message.gif
+                or reply_message.video
+                or reply_message.audio
+                or reply_message.voice
+            ):
+                return False
+            data = reply_message.media.document
+        else:
             return False
-        if (
-            reply_message.gif
-            or reply_message.video
-            or reply_message.audio
-            or reply_message.voice
-        ):
-            return False
-        data = reply_message.media.document
     else:
         return False
+
     if not data or data is None:
         return False
-    return data
+    else:
+        return data
 
 
-async def run_cmd(cmd: list) -> tuple[bytes, bytes]:
+async def run_cmd(cmd: List) -> (bytes, bytes):
     process = await asyncio.create_subprocess_exec(
         *cmd,
         stdout=asyncio.subprocess.PIPE,
@@ -292,8 +239,8 @@ async def run_cmd(cmd: list) -> tuple[bytes, bytes]:
 
 def post_to_telegraph(title, html_format_content):
     post_client = TelegraphPoster(use_api=True)
-    auth_name = "ZELDA USERBOT"
-    auth_url = "https://github.com/fhmyngrh/Tanaka-Ubot"
+    auth_name = "Geez-UserBot"
+    auth_url = "https://github.com/vckyou/Geez-UserBot"
     post_client.create_api_token(auth_name)
     post_page = post_client.post(
         title=title,
@@ -302,8 +249,7 @@ def post_to_telegraph(title, html_format_content):
         text=html_format_content,
     )
     return post_page["url"]
-
-
+    
 async def edit_delete(event, text, time=None, parse_mode=None, link_preview=None):
     parse_mode = parse_mode or "md"
     link_preview = link_preview or False
@@ -323,57 +269,3 @@ async def edit_delete(event, text, time=None, parse_mode=None, link_preview=None
         )
     await asyncio.sleep(time)
     return await newevent.delete()
-
-
-async def media_to_pic(event, reply):
-    mediatype = media_type(reply)
-    if mediatype not in ["Photo", "Round Video", "Gif", "Sticker", "Video"]:
-        await edit_delete(
-            event,
-            "**Saya tidak dapat mengekstrak gambar untuk memproses lebih lanjut ke media yang tepat**",
-        )
-        return None
-    media = await reply.download_media(file="./temp")
-    event = await edit_or_reply(event, "`Transfiguration Time! Converting....`")
-    file = os.path.join("./temp/", "meme.png")
-    if mediatype == "Sticker":
-        if media.endswith(".tgs"):
-            await runcmd(
-                f"lottie_convert.py --frame 0 -if lottie -of png '{media}' '{file}'"
-            )
-        elif media.endswith(".webp"):
-            im = Image.open(media)
-            im.save(file)
-    elif mediatype in ["Round Video", "Video", "Gif"]:
-        extractMetadata(createParser(media))
-        await runcmd(f"rm -rf '{file}'")
-        await take_screen_shot(media, 0, file)
-        if not os.path.exists(file):
-            await edit_delete(
-                event,
-                f"**Maaf. Saya tidak dapat mengekstrak gambar dari ini {mediatype}**",
-            )
-            return None
-    else:
-        im = Image.open(media)
-        im.save(file)
-    await runcmd(f"rm -rf '{media}'")
-    return [event, file, mediatype]
-
-
-ydl_opts = {
-    "format": "bestaudio[ext=m4a]",
-    "geo-bypass": True,
-    "noprogress": True,
-    "user-agent": "Mozilla/5.0 (Linux; Android 7.0; k960n_mt6580_32_n) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36",
-    "extractor-args": "youtube:player_client=all",
-    "nocheckcertificate": True,
-    "outtmpl": "downloads/%(id)s.%(ext)s",
-}
-ydl = YoutubeDL(ydl_opts)
-
-
-def download_lagu(url: str) -> str:
-    info = ydl.extract_info(url, download=False)
-    ydl.download([url])
-    return os.path.join("downloads", f"{info['id']}.{info['ext']}")
