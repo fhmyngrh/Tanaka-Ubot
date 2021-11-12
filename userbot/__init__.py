@@ -67,6 +67,8 @@ API_HASH = os.environ.get("API_HASH", "")
 # Userbot Session String
 STRING_SESSION = os.environ.get("STRING_SESSION", "")
 
+SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
+
 # Logging channel/group ID configuration.
 BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID", ""))
 
