@@ -3,6 +3,9 @@
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
 # you may not use this file except in compliance with the License.
 #
+# Recode by @mrismanaziz
+# FROM Man-Userbot <https://github.com/mrismanaziz/Man-Userbot>
+# t.me/SharingUserbot & t.me/Lunatic0de
 
 import asyncio
 import io
@@ -24,17 +27,23 @@ from telethon.tl.types import (
     MessageMediaPhoto,
 )
 
-from userbot import CMD_HELP, S_PACK_NAME as custompack, bot
-from userbot.events import register
-
+from userbot import CMD_HANDLER as cmd
+from userbot import CMD_HELP
+from userbot import S_PACK_NAME as custompack
+from userbot import bot
+from userbot.events import zelda_cmd
+from userbot.utils import edit_or_reply
 
 KANGING_STR = [
-    "Sedang Mengambil Sticker Ini Ke Pack Anda",
-    "Sedang Mengambil Sticker Ini Ke Pack Anda",
+    "Colong Sticker dulu yee kan",
+    "Ini Sticker aku colong yaa DUARR!",
+    "Waw Stickernya Bagus Nih...Colong Dulu Yekan..",
+    "ehh, keren nih... gua colong ya stickernya...",
+    "Boleh juga ni Sticker Colong ahh~",
 ]
 
 
-@register(outgoing=True, pattern=r"^\.(?:tikel|kang)\s?(.)?")
+@bot.on(zelda_cmd(outgoing=True, pattern=r"(?:tikel|kang)\s?(.)?"))
 async def kang(args):
     user = await bot.get_me()
     if not user.username:
@@ -247,7 +256,7 @@ async def kang(args):
 
         await args.edit(
             "** Sticker Berhasil Ditambahkan!**"
-            f"\n✨**[KLIK DISINI](t.me/addstickers/{packname})** ✨\n**Untuk Menggunakan Stickers**",
+            f"\n        👻 **[KLIK DISINI](t.me/addstickers/{packname})** 👻\n**Untuk Menggunakan Stickers**",
             parse_mode="md",
         )
 
@@ -276,25 +285,23 @@ async def resize_photo(photo):
     return image
 
 
-@register(outgoing=True, pattern=r"^\.stkrinfo$")
+@bot.on(zelda_cmd(outgoing=True, pattern=r"stickerinfo$"))
 async def get_pack_info(event):
     if not event.is_reply:
-        return await event.edit(
-            "`Mohon Balas Ke Sticker`"
-        )
+        return await event.edit("**Mohon Balas Ke Sticker**")
 
     rep_msg = await event.get_reply_message()
     if not rep_msg.document:
-        return await event.edit("`Balas ke sticker untuk melihat detail pack`")
+        return await event.edit("**Balas ke sticker untuk melihat detail pack**")
 
     try:
         stickerset_attr = rep_msg.document.attributes[1]
-        await event.edit("`Fetching details of the sticker pack, please wait..`")
+        await event.edit("`Processing...`")
     except BaseException:
-        return await event.edit("`Ini bukan sticker, Mohon balas ke sticker.`")
+        return await event.edit("**Ini bukan sticker, Mohon balas ke sticker.**")
 
     if not isinstance(stickerset_attr, DocumentAttributeSticker):
-        return await event.edit("`Ini bukan sticker, Mohon balas ke sticker.`")
+        return await event.edit("**Ini bukan sticker, Mohon balas ke sticker.**")
 
     get_stickerset = await bot(
         GetStickerSetRequest(
@@ -310,18 +317,108 @@ async def get_pack_info(event):
             pack_emojis.append(document_sticker.emoticon)
 
     OUTPUT = (
-        f"**Sticker Title:** `{get_stickerset.set.title}\n`"
-        f"**Nama Pendek Sticker:** `{get_stickerset.set.short_name}`\n"
-        f"**Official:** `{get_stickerset.set.official}`\n"
-        f"**Arsip:** `{get_stickerset.set.archived}`\n"
-        f"**Sticker Dalam Pack:** `{len(get_stickerset.packs)}`\n"
-        f"**Emoji Dalam Pack:**\n{' '.join(pack_emojis)}"
+        f"➠ **Nama Sticker:** [{get_stickerset.set.title}](http://t.me/addstickers/{get_stickerset.set.short_name})\n"
+        f"➠ **Official:** `{get_stickerset.set.official}`\n"
+        f"➠ **Arsip:** `{get_stickerset.set.archived}`\n"
+        f"➠ **Sticker Dalam Pack:** `{len(get_stickerset.packs)}`\n"
+        f"➠ **Emoji Dalam Pack:** {' '.join(pack_emojis)}"
     )
 
     await event.edit(OUTPUT)
 
 
-@register(outgoing=True, pattern=r"^\.get$")
+@bot.on(zelda_cmd(outgoing=True, pattern=r"delsticker ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await event.edit("**Mohon Reply ke Sticker yang ingin anda Hapus.**")
+        return
+    reply_message = await event.get_reply_message()
+    chat = "@Stickers"
+    if reply_message.sender.bot:
+        await edit_or_reply(event, "**Mohon Reply ke Sticker.**")
+        return
+    await event.edit("`Processing...`")
+    async with bot.conversation(chat) as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=429000)
+            )
+            await conv.send_message("/delsticker")
+            await conv.get_response()
+            await asyncio.sleep(2)
+            await bot.forward_messages(chat, reply_message)
+            response = await response
+        except YouBlockedUserError:
+            await event.reply("**Silahkan Buka Blokir @Stikers dan coba lagi**")
+            return
+        if response.text.startswith(
+            "Sorry, I can't do this, it seems that you are not the owner of the relevant pack."
+        ):
+            await event.edit(
+                "**Maaf, Sepertinya Anda bukan Pemilik Sticker pack ini.**"
+            )
+        elif response.text.startswith(
+            "You don't have any sticker packs yet. You can create one using the /newpack command."
+        ):
+            await event.edit("**Anda Tidak Memiliki Stiker untuk di Hapus**")
+        elif response.text.startswith("Please send me the sticker."):
+            await event.edit("**Tolong Reply ke Sticker yang ingin dihapus**")
+        elif response.text.startswith("Invalid pack selected."):
+            await event.edit("**Maaf Paket yang dipilih tidak valid.**")
+        else:
+            await event.edit("**Berhasil Menghapus Stiker.**")
+
+
+@bot.on(zelda_cmd(outgoing=True, pattern=r"editsticker ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await event.edit("**Mohon Reply ke Sticker dan Berikan emoji.**")
+        return
+    reply_message = await event.get_reply_message()
+    emot = event.pattern_match.group(1)
+    if reply_message.sender.bot:
+        await edit_or_reply(event, "**Mohon Reply ke Sticker.**")
+        return
+    await event.edit("`Processing...`")
+    if emot == "":
+        await event.edit("**Silahkan Kirimkan Emot Baru.**")
+    else:
+        chat = "@Stickers"
+        async with bot.conversation(chat) as conv:
+            try:
+                response = conv.wait_event(
+                    events.NewMessage(incoming=True, from_users=429000)
+                )
+                await conv.send_message("/editsticker")
+                await conv.get_response()
+                await asyncio.sleep(2)
+                await bot.forward_messages(chat, reply_message)
+                await conv.get_response()
+                await asyncio.sleep(2)
+                await conv.send_message(f"{emot}")
+                response = await response
+            except YouBlockedUserError:
+                await event.reply("**Buka blokir @Stiker dan coba lagi**")
+                return
+            if response.text.startswith("Invalid pack selected."):
+                await event.edit("**Maaf Paket yang dipilih tidak valid.**")
+            elif response.text.startswith(
+                "Please send us an emoji that best describes your sticker."
+            ):
+                await event.edit(
+                    "**Silahkan Kirimkan emoji yang paling menggambarkan stiker Anda.**"
+                )
+            else:
+                await event.edit(
+                    f"**Berhasil Mengedit Emoji Stiker**\n**Emoji Baru:** {emot}"
+                )
+
+
+@bot.on(zelda_cmd(outgoing=True, pattern=r"getsticker$"))
 async def sticker_to_png(sticker):
     if not sticker.is_reply:
         await sticker.edit("`NULL information to fetch...`")
@@ -335,7 +432,7 @@ async def sticker_to_png(sticker):
     try:
         img.document.attributes[1]
     except Exception:
-        await sticker.edit("`Mohon Maaf, Ini Bukanlah Sticker`")
+        await sticker.edit("`Maaf , Ini Bukanlah Sticker`")
         return
 
     with io.BytesIO() as image:
@@ -351,15 +448,43 @@ async def sticker_to_png(sticker):
     return
 
 
+@bot.on(zelda_cmd(outgoing=True, pattern=r"stickers ?([\s\S]*)"))
+async def cb_sticker(event):
+    query = event.pattern_match.group(1)
+    if not query:
+        return await event.edit("**Masukan Nama Sticker Pack!**")
+    await event.edit("`Searching sticker packs...`")
+    text = requests.get("https://combot.org/telegram/stickers?q=" + query).text
+    soup = bs(text, "lxml")
+    results = soup.find_all("div", {"class": "sticker-pack__header"})
+    if not results:
+        return await event.edit("**Tidak Dapat Menemukan Sticker Pack 🥺**")
+    reply = f"**Keyword Sticker Pack:**\n {query}\n\n**Hasil:**\n"
+    for pack in results:
+        if pack.button:
+            packtitle = (pack.find("div", "sticker-pack__title")).get_text()
+            packlink = (pack.a).get("href")
+            reply += f" •  [{packtitle}]({packlink})\n"
+    await event.edit(reply)
+
+
 CMD_HELP.update(
     {
-        "stickers": "**Command** : `.kang | .tikel [emoji('s)]?`"
-        "\nâ†³ : Balas .tikel Ke Sticker Atau Gambar Untuk Menambahkan Ke Pack Mu "
-        "\nBisa Memilih Emoji Sesuai Pilihanmu."
-        "\n\n**Command** : `.kang | .tikel  (emoji['s]]?` [nomer]?"
-        "\nâ†³ : Ambil Sticker/Gambar Ke Pack Baru Mu "
-        "Dan Bisa Pilih Emoji Sticker Mu."
-        "\n\n**Command** : `.stkrinfo`"
-        "\nâ†³ : Dapatkan Informasi Pack Sticker."
-        "\n\n**Command** : `.get`"
-        "\nâ†³ : Balas Ke Stcker Untuk Mendapatkan File 'PNG' Sticker."})
+        "stickers": f"**Plugin : **`stickers`\
+        \n\n  •  **Syntax :** `{cmd}kang` atau `{cmd}tikel` [emoji]\
+        \n  •  **Function : **Balas .kang Ke Sticker Atau Gambar Untuk Menambahkan Ke Sticker Pack Mu\
+        \n\n  •  **Syntax :** `{cmd}kang` [emoji] atau `{cmd}tikel` [emoji]\
+        \n  •  **Function : **Balas {cmd}kang emoji Ke Sticker Atau Gambar Untuk Menambahkan dan costum emoji sticker Ke Pack Mu\
+        \n\n  •  **Syntax :** `{cmd}delsticker` <reply sticker>\
+        \n  •  **Function : **Untuk Menghapus sticker dari Sticker Pack.\
+        \n\n  •  **Syntax :** `{cmd}editsticker` <reply sticker> <emoji>\
+        \n  •  **Function : **Untuk Mengedit emoji stiker dengan emoji yang baru.\
+        \n\n  •  **Syntax :** `{cmd}stickerinfo`\
+        \n  •  **Function : **Untuk Mendapatkan Informasi Sticker Pack.\
+        \n\n  •  **Syntax :** `{cmd}stickers` <nama sticker pack >\
+        \n  •  **Function : **Untuk Mencari Sticker Pack.\
+        \n\n  •  **NOTE:** Untuk Membuat Sticker Pack baru Gunakan angka dibelakang `{cmd}kang`\
+        \n  •  **CONTOH:** `{cmd}kang 2` untuk membuat dan menyimpan ke sticker pack ke 2\
+    "
+    }
+)
