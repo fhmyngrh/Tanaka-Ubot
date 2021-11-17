@@ -45,6 +45,7 @@ pylast
 pySmartDL
 python-barcode
 python-dotenv
+py-tgcalls==0.8.1rc1
 pytz
 qrcode
 requests>=2.18.4
