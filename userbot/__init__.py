@@ -330,7 +330,7 @@ try:
 except Exception as e:
     print(f"STRING_SESSION - {e}")
     sys.exit()
-call_py = PyTgCalls(bot)
+# call_py = PyTgCalls(bot)
 
 async def check_botlog_chatid():
     if not BOTLOG_CHATID and LOGSPAMMER:
