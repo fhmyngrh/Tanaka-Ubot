@@ -62,6 +62,7 @@ pytz
 qrcode
 rarfile
 randomstuff.py
+redis>=3.3.10
 regex
 requests
 scipy
