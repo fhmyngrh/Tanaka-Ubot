@@ -13,6 +13,7 @@ from math import ceil
 
 from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
+from pytgcalls import PyTgCalls
 from pymongo import MongoClient
 from redis import StrictRedis
 from dotenv import load_dotenv
