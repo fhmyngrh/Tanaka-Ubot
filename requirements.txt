@@ -40,12 +40,12 @@ Pillow>=6.0.0
 fontTools
 psycopg2
 psycopg2-binary
+py-tgcalls==0.8.1rc1
 pybase64>=0.4.0
 pylast
 pySmartDL
 python-barcode
 python-dotenv
-py-tgcalls==0.8.1rc1
 pytz
 qrcode
 requests>=2.18.4
@@ -65,7 +65,6 @@ PyDrive2
 pyDownload
 beautifulsoup4>=4.8.1
 youtube-dl
-youtube_dl
 PyGithub
 bs4
 covid>=2.2.9
