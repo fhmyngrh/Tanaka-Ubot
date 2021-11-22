@@ -236,7 +236,7 @@ async def amireallyalive(alive):
         f"◉ `Branch   :` ZELDA USERBOT \n"
         f"◉ `Bot Ver  :` {BOT_VER} \n"
         f"◉ `Modules  :` {len(modules)} Modules \n"
-        f"◉ `Owner    :` [LORD ZELDA](t.me/GapernahDesah)")
+        f"◉ `Owner    :` [LORD ZELDA](t.me/UnrealZelda)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -270,7 +270,7 @@ async def amireallyalive(alive):
         f"◉ `Branch   :` ZELDA USERBOT \n"
         f"◉ `Bot Ver  :` {BOT_VER} \n"
         f"◉ `Modules  :` {len(modules)} Modules \n"
-        f"◉ `Owner    :` [LORD ZELDA](t.me/GapernahDesah)")
+        f"◉ `Owner    :` [LORD ZELDA](t.me/UnrealZelda)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -313,7 +313,7 @@ async def redis(alive):
         f"◉ `Branch   :` ZELDA USERBOT \n"
         f"◉ `Bot Ver  :` {BOT_VER} \n"
         f"◉ `Modules  :` {len(modules)} Modules \n\n"
-        f"[Repo](https://github.com/fhmyngrh/Geez-UserBot) | [Grup](t.me/Friendlycircle) | [Owner](t.me/GapernahDesah) | [Instagram](https://Instagram.com/fhmyngrh_)")
+        f"[Repo](https://github.com/fhmyngrh/Tanaka-Ubot) | [Grup](t.me/UnrealBabies) | [Owner](t.me/UnrealZelda) | [Instagram](https://Instagram.com/fhmyngrh_)")
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
