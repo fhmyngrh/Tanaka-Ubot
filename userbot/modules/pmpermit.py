@@ -99,7 +99,7 @@ async def permitpm(event):
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)
             if event.chat_id not in COUNT_PM:
-                COUNT_PM.update({event.chat_id : 1})
+                COUNT_PM.update(1)
             else:
                 COUNT_PM[event.chat_id] = COUNT_PM[event.chat_id] + 1
 
