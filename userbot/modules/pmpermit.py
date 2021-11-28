@@ -83,6 +83,7 @@ async def permitpm(event):
         if not apprv and event.text != UNAPPROVED_MSG:
             if event.chat_id in LASTMSG:
                 prevmsg = LASTMSG[event.chat_id]
+                wrn = COUNT_PM[event.chat_id] + 1
                 # If the message doesn't same as previous one
                 # Send the Unapproved Message again
                 if event.text != prevmsg:
@@ -90,18 +91,20 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {COUNT_PM}/5")
+                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {wrn}/5")
 
             else:
-                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {COUNT_PM}/5")
+                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {wrn}/5")
 
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)
             if event.chat_id not in COUNT_PM:
                 COUNT_PM.update({event.chat_id : 1})
+                wrn = 1
             else:
                 COUNT_PM[event.chat_id] = COUNT_PM[event.chat_id] + 1
+                wrn = COUNT_PM[event.chat_id] + 1
 
             if COUNT_PM[event.chat_id] > 5:
                 await event.respond(
