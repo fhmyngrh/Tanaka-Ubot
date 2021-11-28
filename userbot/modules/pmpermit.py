@@ -44,7 +44,7 @@ DEF_UNAPPROVED_MSG = (
     "• Tunggu hingga pesan kamu di setujui\n"
     "• Dilarang Spam Chat\n"
     "• 5x Spam Chat, Bot akan otomatis memblokir\n"
-    "• Subs @SexualSins58 & @JatahMantan58\n\n"
+    "• Subs @SexualSins58 & @VIPLiveRecords\n\n"
     "🚀  ZELDA USERBOT")
 
 # =================================================================
@@ -90,10 +90,10 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"{UNAPPROVED_MSG}")
+                    await event.reply(f"{UNAPPROVED_MSG}\n\n Pesan : {COUNT_PM}/5")
 
             else:
-                await event.reply(f"{UNAPPROVED_MSG}")
+                await event.reply(f"{UNAPPROVED_MSG}\n\n Pesan : {COUNT_PM}/5")
 
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
@@ -246,7 +246,7 @@ async def approvepm(apprvpm):
     except IntegrityError:
         return await apprvpm.edit("`Oke, Pesan Anda Sudah Diterima Oleh Lord`")
 
-    await apprvpm.edit(f"`Hai 👋` [{name0}](tg://user?id={uid}) `Pesan anda telah di terima oleh Lord` ⚡")
+    await apprvpm.edit(f"`Hai` [{name0}](tg://user?id={uid}) `Pesan anda telah di terima.`")
     await apprvpm.delete(getmsg)
     await message.delete()
 
