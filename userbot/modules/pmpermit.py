@@ -16,6 +16,7 @@ from userbot import (
     BOTLOG_CHATID,
     CMD_HELP,
     COUNT_PM,
+    COUNT_MSG,
     LASTMSG,
     LOGS,
     PM_AUTO_BAN,
@@ -32,8 +33,8 @@ else:
     WARN_PIC = PM_PERMIT_PIC
 
 COUNT_PM = {}
+COUNT_MSG = 0
 LASTMSG = {}
-WARN = 1
 
 # ========================= CONSTANTS ============================
 
@@ -91,20 +92,20 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {WARN}/5")
+                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Peringatan** : {COUNT_MSG}/4")
 
             else:
-                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {WARN}/5")
+                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Peringatan** : {COUNT_MSG}/4")
 
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)
             if event.chat_id not in COUNT_PM:
                 COUNT_PM.update({event.chat_id : 1})
-                WARN = 1
+                COUNT_MSG = 1
             else:
                 COUNT_PM[event.chat_id] = COUNT_PM[event.chat_id] + 1
-                WARN = COUNT_PM[event.chat_id] + 1
+                COUNT_MSG = COUNT_PM[event.chat_id] + 1
 
             if COUNT_PM[event.chat_id] > 5:
                 await event.respond(
