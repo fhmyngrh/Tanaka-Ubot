@@ -80,7 +80,7 @@ async def permitpm(event):
         if COUNT_PM[event.chat_id] > 4:
             warn_msg = f"**⚠️ Anda sudah melebihi batas peringatan. Jika tetap mengirim pesan, Bot akan otomatis memblokir anda.**"
         else:
-            warn_msg = f"**⚠️ Batas Peringatan :** {wrn}/4"
+            warn_msg = f"**⚠️ Batas Peringatan :** {COUNT_PM}/4"
             
         # Use user custom unapproved message
         getmsg = gvarstatus("unapproved_msg")
@@ -101,10 +101,10 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"{UNAPPROVED_MSG}\n\n{warn_msg}")
+                    await event.reply(f"{UNAPPROVED_MSG}\n\n**⚠️ Batas Peringatan :** {COUNT_PM}/4")
 
             else:
-                await event.reply(f"{UNAPPROVED_MSG}\n\n{warn_msg}")
+                await event.reply(f"{UNAPPROVED_MSG}\n\n⚠️ Batas Peringatan :** {COUNT_PM}/4")
 
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
