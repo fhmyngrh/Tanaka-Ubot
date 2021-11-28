@@ -90,10 +90,10 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : COUNT_PM/5")
+                    await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {COUNT_PM}/5")
 
             else:
-                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : COUNT_PM/5")
+                await event.reply(f"{UNAPPROVED_MSG}\n\n**Batas Pesan** : {COUNT_PM}/5")
 
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
