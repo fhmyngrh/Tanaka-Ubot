@@ -72,16 +72,6 @@ async def permitpm(event):
         apprv = is_approved(event.chat_id)
         notifsoff = gvarstatus("NOTIF_OFF")
         
-        try:
-            wrn = COUNT_PM[event.chat_id] + 1
-        except KeyError:
-            wrn = 1
-        
-        if COUNT_PM[event.chat_id] > 4:
-            warn_msg = f"**⚠️ Anda sudah melebihi batas peringatan. Jika tetap mengirim pesan, Bot akan otomatis memblokir anda.**"
-        else:
-            warn_msg = f"**⚠️ Batas Peringatan :** {COUNT_PM}/4"
-            
         # Use user custom unapproved message
         getmsg = gvarstatus("unapproved_msg")
         if getmsg is not None:
